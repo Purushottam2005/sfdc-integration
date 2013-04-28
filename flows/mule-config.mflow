@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="sfdc-integration">
-    <flow SubFlow="false" name="sfdc-integrationFlow1" entity-id="75b43ffa-c6a3-43aa-b726-2bc6cb52345c">
-        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="be92219d-5e88-44f1-b459-8d137c9c7231">
-            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/https/endpoint" entity-id="37f8ba98-81e8-4cd2-844f-0561fa7123e8">
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="mule-config">
+    <flow SubFlow="false" name="mule-configFlow1" entity-id="7d9b0100-477e-45f5-8cdf-dba371ceb744">
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="d55b1074-cf55-4a81-ae18-17beb069ead7">
+            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/https/endpoint" entity-id="548cce88-14a2-4e69-974b-c59a626a461c">
                 <properties>
                     <property name="auxiliary;erased;contentType" value="true"/>
                     <property name="auxiliary;erased;mimeType" value="true"/>
@@ -32,7 +32,7 @@
                 </properties>
                 <description></description>
             </endpoint>
-            <pattern name="Set Payload" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="9f9e93d3-25a2-4201-a37c-0296d0585b9a">
+            <pattern name="Set Payload" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="be6d40be-969b-4942-ab9d-3f332f1dfea6">
                 <properties>
                     <property name="value" value="#['Hello World']"/>
                     <property name="updated"/>
