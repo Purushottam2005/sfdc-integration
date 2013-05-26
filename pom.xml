@@ -12,12 +12,13 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-		<mule.version>3.3.1</mule.version>
+		<mule.version>3.4.0</mule.version>
 		<eclipsePluginVersion>2.8</eclipsePluginVersion>
 		<jdkName>JavaSE-1.6</jdkName>
 		<jdk.version>1.6</jdk.version>
 		<junit.version>4.9</junit.version>
 		<packaging>mule</packaging>
+		<mule.dependencies>provided</mule.dependencies>
 	</properties>
 
 	<build>
@@ -61,105 +62,6 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<plugins>
-			<plugin>
-				<groupId>org.mule.tools</groupId>
-				<artifactId>maven-mule-plugin</artifactId>
-				<version>1.9</version>
-				<extensions>true</extensions>
-				<configuration>
-					<copyToAppsDirectory>true</copyToAppsDirectory>
-					<excludeMuleDependencies>false</excludeMuleDependencies>
-					<inclusions>
-						<inclusion>
-							<groupId>org.mule.modules</groupId>
-							<artifactId>mule-module-sfdc</artifactId>
-						</inclusion>
-						<inclusion>
-							<groupId>org.mule.modules</groupId>
-							<artifactId>mule-module-objectstore</artifactId>
-						</inclusion>
-						<inclusion>
-							<groupId>org.mule.modules</groupId>
-							<artifactId>mule-module-cloudhub</artifactId>
-						</inclusion>
-						<inclusion>
-							<groupId>org.mule.modules</groupId>
-							<artifactId>mule-module-rest-router</artifactId>
-						</inclusion>
-					</inclusions>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
-					<encoding>ISO-8859-1</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2.1</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>project</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>${eclipsePluginVersion}</version>
-				<configuration>
-					<!-- by default download all sources when generating project files -->
-					<downloadSources>true</downloadSources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>add-resource</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>add-resource</goal>
-						</goals>
-						<configuration>
-							<resources>
-								<resource>
-									<directory>src/main/app/</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>java</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<mainClass>org.mule.MuleServer</mainClass>
-					<arguments>
-						<argument>-config</argument>
-						<argument>src/main/app/mule-config.xml</argument>
-					</arguments>
-					<classpathScope>compile</classpathScope>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 
 	<profiles>
@@ -167,7 +69,125 @@
 			<id>webapp</id>
 			<properties>
 				<packaging>war</packaging>
+				<war.name>sfdc-integration</war.name>
+				<mule.dependencies>compile</mule.dependencies>
 			</properties>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/app/</directory>
+					</resource>
+					<resource>
+						<directory>src/main/resources</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.3</version>
+						<configuration>
+							<warName>${war.name}</warName>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>mule</id>
+			<build>
+				<resources>
+					<resource>
+						<filtering>true</filtering>
+						<directory>src/main/resources/</directory>
+						<excludes>
+							<exclude>log4j.properties</exclude>
+						</excludes>
+					</resource>
+					<resource>
+						<directory>src/main/app/</directory>
+					</resource>
+				</resources>
+				<plugins>
+					<plugin>
+						<groupId>org.mule.tools</groupId>
+						<artifactId>maven-mule-plugin</artifactId>
+						<version>1.9</version>
+						<extensions>true</extensions>
+						<configuration>
+							<copyToAppsDirectory>true</copyToAppsDirectory>
+							<excludeMuleDependencies>false</excludeMuleDependencies>
+							<inclusions>
+								<inclusion>
+									<groupId>org.mule.modules</groupId>
+									<artifactId>mule-module-sfdc</artifactId>
+								</inclusion>
+								<inclusion>
+									<groupId>org.mule.modules</groupId>
+									<artifactId>mule-module-objectstore</artifactId>
+								</inclusion>
+								<inclusion>
+									<groupId>org.mule.modules</groupId>
+									<artifactId>mule-module-cloudhub</artifactId>
+								</inclusion>
+								<inclusion>
+									<groupId>org.mule.modules</groupId>
+									<artifactId>mule-module-rest-router</artifactId>
+								</inclusion>
+							</inclusions>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>2.3.2</version>
+						<configuration>
+							<source>${jdk.version}</source>
+							<target>${jdk.version}</target>
+							<encoding>ISO-8859-1</encoding>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<version>2.2.1</version>
+						<configuration>
+							<descriptorRefs>
+								<descriptorRef>project</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-eclipse-plugin</artifactId>
+						<version>${eclipsePluginVersion}</version>
+						<configuration>
+							<!-- by default download all sources when generating project files -->
+							<downloadSources>true</downloadSources>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<mainClass>org.mule.MuleServer</mainClass>
+							<arguments>
+								<argument>-config</argument>
+								<argument>src/main/app/mule-config.xml</argument>
+							</arguments>
+							<classpathScope>compile</classpathScope>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 
@@ -252,27 +272,27 @@
 			<groupId>org.mule</groupId>
 			<artifactId>mule-core</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<!-- Xml configuration -->
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-spring-config</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>com.mulesoft.muleesb</groupId> -->
 		<!-- <artifactId>mule-core-ee</artifactId> -->
 		<!-- <version>${mule.version}</version> -->
-		<!-- <scope>provided</scope> -->
+		<!-- <scope>${mule.dependencies}</scope> -->
 		<!-- </dependency> -->
 		<!-- Xml configuration -->
 		<!-- <dependency> -->
 		<!-- <groupId>com.mulesoft.muleesb.modules</groupId> -->
 		<!-- <artifactId>mule-module-spring-config-ee</artifactId> -->
 		<!-- <version>${mule.version}</version> -->
-		<!-- <scope>provided</scope> -->
+		<!-- <scope>${mule.dependencies}</scope> -->
 		<!-- </dependency> -->
 
 		<!-- Mule Transports -->
@@ -280,69 +300,90 @@
 			<groupId>org.mule.transports</groupId>
 			<artifactId>mule-transport-file</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.transports</groupId>
+			<artifactId>mule-transport-servlet</artifactId>
+			<version>${mule.version}</version>
+			<scope>${mule.dependencies}</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.transports</groupId>
+			<artifactId>mule-transport-stdio</artifactId>
+			<version>${mule.version}</version>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.transports</groupId>
 			<artifactId>mule-transport-http</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.transports</groupId>
 			<artifactId>mule-transport-jdbc</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.transports</groupId>
 			<artifactId>mule-transport-jms</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.transports</groupId>
 			<artifactId>mule-transport-vm</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 
 		<!-- Mule Modules -->
+		
+		<!-- JSON -->
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-json</artifactId>
+			<version>${mule.version}</version>
+			<scope>${mule.dependencies}</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-client</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-cxf</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-management</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-scripting</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-sxc</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-xml</artifactId>
 			<version>${mule.version}</version>
-			<scope>provided</scope>
+			<scope>${mule.dependencies}</scope>
 		</dependency>
 
 		<!-- additional modules -->
@@ -390,11 +431,11 @@
 	</dependencies>
 
 	<repositories>
-		<!-- <repository> -->
-		<!-- <id>jboss</id> -->
-		<!-- <name>JBoss</name> -->
-		<!-- <url>http://repository.jboss.com/</url> -->
-		<!-- </repository> -->
+		<repository>
+			<id>jboss</id>
+			<name>JBoss</name>
+			<url>http://repository.jboss.com/</url>
+		</repository>
 		<repository>
 			<id>mulesoft-releases</id>
 			<name>MuleSoft Releases</name>
