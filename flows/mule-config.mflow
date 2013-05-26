@@ -1,44 +1,420 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="mule-config">
-    <flow SubFlow="false" name="mule-configFlow1" entity-id="7d9b0100-477e-45f5-8cdf-dba371ceb744">
-        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="d55b1074-cf55-4a81-ae18-17beb069ead7">
-            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/https/endpoint" entity-id="548cce88-14a2-4e69-974b-c59a626a461c">
+    <global-element name="HTTP\HTTPS" type="org.mule.tooling.ui.modules.core.global.httpConnector" entity-id="HTTP\HTTPS#1">
+        <properties>
+            <property name="proxyUsername"/>
+            <property name="reuseAddress"/>
+            <property name="receiveBacklog"/>
+            <property name="enableCookies" value="true"/>
+            <property name="serverSoTimeout"/>
+            <property name="socketSoLinger"/>
+            <property name="clientSoTimeout"/>
+            <property name="validateConnections" value="false"/>
+            <property name="keepAlive"/>
+            <property name="label"/>
+            <property name="sendTcpNoDelay"/>
+            <property name="proxyPort"/>
+            <property name="cookieSpec" value="netscape"/>
+            <property name="dispatcherPoolFactory-ref"/>
+            <property name="proxyHostname"/>
+            <property name="receiveBufferSize"/>
+            <property name="name" value="connector.http.mule.default"/>
+            <property name="keepSendSocketOpen"/>
+            <property name="dynamicNotification"/>
+            <property name="sendBufferSize"/>
+            <property name="proxyPassword"/>
+            <property name="auxiliary;index" value="1"/>
+        </properties>
+    </global-element>
+    <global-element name="Salesforce (OAuth)" type="http://www.mulesoft.org/schema/mule/sfdc/config-with-oauth" entity-id="Salesforce (OAuth)#1">
+        <properties>
+            <property name="consumerKey" value="3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr"/>
+            <property name="useDefaultRule"/>
+            <property name="allowFieldTruncationSupport"/>
+            <property name="name" value="Salesforce_OAuth"/>
+            <property name="assignmentRuleId"/>
+            <property name="timeObjectStore-ref"/>
+            <property name="clientId" value="3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr"/>
+            <property name="consumerSecret" value="3944577021489077539"/>
+            <property name="auxiliary;index" value="2"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/oauth-callback-config;0">
+                <property name="domain" value="localhost"/>
+                <property name="path" value="oauthcallback"/>
+                <property name="localPort" value="8081"/>
+                <property name="remotePort" value="8081"/>
+                <property name="auxiliary;index" value="3"/>
+                <property name="auxiliary;wrapIn" value="3"/>
+            </property-collection>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/oauth-store-config;0">
+                <property name="objectStore-ref" value="_defaultUserObjectStore"/>
+                <property name="auxiliary;index" value="4"/>
+                <property name="auxiliary;wrapIn" value="4"/>
+            </property-collection>
+        </properties>
+    </global-element>
+    <global-element name="Global Property" type="http://www.mulesoft.org/schema/mule/core/global-property" entity-id="Global Property#1">
+        <properties>
+            <property name="name" value="sfdc.contact.fields"/>
+            <property name="value" value="Title, Phone, OtherStreet, OtherState, OtherPostalCode, OtherPhone, OtherCountry, OtherCity, Name, MobilePhone, MailingStreet, MailingState, MailingPostalCode, MailingCountry, MailingCity, LastName, Id, HomePhone, FirstName, Fax, Email, AccountId"/>
+            <property name="auxiliary;index" value="5"/>
+        </properties>
+    </global-element>
+    <global-unknown description="false" unknownName="rest-router-config" index="6" entity-id="global-unknown#1">
+        <content>&lt;rest-router:config xmlns:rest-router=&quot;http://www.mulesoft.org/schema/mule/rest-router&quot; name=&quot;rest-router-config&quot;/&gt;</content>
+    </global-unknown>
+    <flow SubFlow="false" name="mule-configFlow1" entity-id="fe65e45a-6e42-4096-bfd3-413d5b2e0ee0">
+        <properties>
+            <property name="processingStrategy"/>
+            <property name="processingStrategy2"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="7"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
-                    <property name="auxiliary;erased;contentType" value="true"/>
-                    <property name="auxiliary;erased;mimeType" value="true"/>
                     <property name="port" value="8081"/>
                     <property name="host" value="localhost"/>
-                    <property name="businessEventsLabel" value=""/>
+                    <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
                     <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
-                    <property name="keep-alive" value="false"/>
-                    <property name="contentType" value=""/>
-                    <property name="disableTransportTransformer" value="false"/>
-                    <property name="password" value=""/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
                     <property name="exchange-pattern" value="request-response"/>
-                    <property name="tracking:enable-default-events" value="false"/>
-                    <property name="ref" value=""/>
-                    <property name="transformer-refs" value=""/>
-                    <property name="httpLabel" value=""/>
-                    <property name="address" value=""/>
-                    <property name="auxiliary;erased;encoding" value="true"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
+                    <property name="address"/>
                     <property name="path" value="helloworld"/>
-                    <property name="encoding" value=""/>
-                    <property name="responseTransformer-refs" value=""/>
-                    <property name="user" value=""/>
-                    <property name="mimeType" value=""/>
-                    <property name="responseTimeout" value="10000"/>
-                    <property name="connector-ref" value=""/>
-                    <property name="updated"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="method"/>
+                    <property name="user"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property name="auxiliary;index" value="8"/>
+                    <property name="connector-ref"/>
                 </properties>
-                <description></description>
             </endpoint>
-            <pattern name="Set Payload" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="be6d40be-969b-4942-ab9d-3f332f1dfea6">
+            <pattern name="Set Payload" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="Set Payload#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="value" value="#['Hello World']"/>
-                    <property name="updated"/>
+                    <property name="auxiliary;index" value="9"/>
                 </properties>
-                <description></description>
             </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="salesforce-authorize" entity-id="c655d95d-7007-44f6-8739-121d1a6332d7">
+        <properties>
+            <property name="processingStrategy"/>
+            <property name="processingStrategy2"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="10"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#2">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#2">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="port" value="8081"/>
+                    <property name="host" value="localhost"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
+                    <property name="address"/>
+                    <property name="path" value="authorize"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="method"/>
+                    <property name="user"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property name="auxiliary;index" value="11"/>
+                    <property name="connector-ref" value="connector.http.mule.default"/>
+                </properties>
+            </endpoint>
+            <pattern name="Salesforce" type="http://www.mulesoft.org/schema/mule/sfdc/sfdc-connector" entity-id="Salesforce#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="immediate"/>
+                    <property name="authorizationUrl" value="https://login.salesforce.com/services/oauth2/authorize"/>
+                    <property name="accessTokenUrl" value="https://login.salesforce.com/services/oauth2/token"/>
+                    <property name="state"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/sfdc/authorize"/>
+                    <property name="display" value="PAGE"/>
+                    <property name="prompt"/>
+                    <property name="config-ref" value="Salesforce_OAuth"/>
+                    <property name="auxiliary;index" value="12"/>
+                </properties>
+            </pattern>
+            <pattern name="HTTP Response Builder" type="http://www.mulesoft.org/schema/mule/http/response-builder" entity-id="HTTP Response Builder#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="cookiesLabel"/>
+                    <property name="status" value="200"/>
+                    <property name="contentType"/>
+                    <property name="auxiliary;index" value="13"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/http/set-cookie;0">
+                        <property name="name" value="accessTokenId"/>
+                        <property name="value" value="#[flowVars['OAuthAccessTokenId']]"/>
+                        <property name="auxiliary;index" value="14"/>
+                        <property name="auxiliary;wrapIn" value="14"/>
+                    </property-collection>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="sfdc-contacts" entity-id="44a74f7d-29ae-42fd-8457-0570ad909e9a">
+        <properties>
+            <property name="processingStrategy"/>
+            <property name="processingStrategy2"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="16"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#3">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" message-exchange-pattern="RequestResponse" name="HTTP" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#3">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="port" value="8081"/>
+                    <property name="host" value="localhost"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="followRedirects"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
+                    <property name="keep-alive"/>
+                    <property name="contentType"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="password"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="httpLabel"/>
+                    <property name="address"/>
+                    <property name="path" value="contacts"/>
+                    <property name="encoding"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="method"/>
+                    <property name="user"/>
+                    <property name="responseTimeout"/>
+                    <property name="mimeType"/>
+                    <property name="auxiliary;index" value="17"/>
+                    <property name="connector-ref" value="connector.http.mule.default"/>
+                </properties>
+            </endpoint>
+            <unknown description="false" index="18" entity-id="unknown#1">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <content>&lt;rest-router:router xmlns:rest-router=&quot;http://www.mulesoft.org/schema/mule/rest-router&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; templateUri=&quot;/contacts/&quot; config-ref=&quot;rest-router-config&quot; doc:name=&quot;Mule Rest Router&quot;&gt;
+			&lt;rest-router:get&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.get.request.in&quot;/&gt;
+				&lt;sfdc:query-all xmlns:sfdc=&quot;http://www.mulesoft.org/schema/mule/sfdc&quot; config-ref=&quot;Salesforce_OAuth&quot; query=&quot;Select ${sfdc.contact.fields} From Contact&quot; doc:name=&quot;Salesforce&quot; accessTokenId=&quot;#[header:INBOUND:Authorization]&quot;/&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.sfdc.out&quot;/&gt;
+				&lt;collection-splitter xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; doc:name=&quot;Collection Splitter&quot;/&gt;
+				&lt;scripting:transformer xmlns:scripting=&quot;http://www.mulesoft.org/schema/mule/scripting&quot; returnClass=&quot;amg.mkaminsk.sfdc.model.Contact&quot; mimeType=&quot;application/json&quot; doc:name=&quot;Groovy&quot;&gt;
+					&lt;scripting:script engine=&quot;Groovy&quot; file=&quot;mappings/groovy/sfdc-contact-to-contact.groovy&quot;/&gt;
+				&lt;/scripting:transformer&gt;
+				&lt;collection-aggregator xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; failOnTimeout=&quot;true&quot; doc:name=&quot;Collection Aggregator&quot;/&gt;
+				&lt;json:object-to-json-transformer xmlns:json=&quot;http://www.mulesoft.org/schema/mule/json&quot; doc:name=&quot;Object to JSON&quot;/&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.get.request.out&quot;/&gt;
+			&lt;/rest-router:get&gt;
+			&lt;rest-router:post&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.post.request.in&quot;/&gt;
+				&lt;json:json-to-object-transformer xmlns:json=&quot;http://www.mulesoft.org/schema/mule/json&quot; returnClass=&quot;amg.mkaminsk.sfdc.model.Contact&quot; doc:name=&quot;JSON to Object&quot;/&gt;
+				&lt;scripting:component xmlns:scripting=&quot;http://www.mulesoft.org/schema/mule/scripting&quot; doc:name=&quot;Groovy&quot;&gt;
+					&lt;scripting:script engine=&quot;Groovy&quot; file=&quot;mappings/groovy/contact-to-sfdc-contact.groovy&quot;/&gt;
+				&lt;/scripting:component&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.post.sfdc.in&quot;/&gt;
+				&lt;sfdc:create-single xmlns:sfdc=&quot;http://www.mulesoft.org/schema/mule/sfdc&quot; config-ref=&quot;Salesforce_OAuth&quot; doc:name=&quot;Salesforce&quot; accessTokenId=&quot;#[header:INBOUND:Authorization]&quot; type=&quot;Contact&quot;&gt;
+					&lt;sfdc:object ref=&quot;#[payload]&quot;/&gt;
+				&lt;/sfdc:create-single&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.post.sfdc.out&quot;/&gt;
+				&lt;choice xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; doc:name=&quot;Choice&quot;&gt;
+					&lt;when expression=&quot;#[payload.isSuccess() == true]&quot;&gt;
+						&lt;http:response-builder xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; doc:name=&quot;HTTP Response Builder&quot; contentType=&quot;application/json&quot; status=&quot;201&quot;&gt;
+							&lt;set-payload value=&quot;{ &amp;quot;href&amp;quot; : &amp;quot;/contacts/#[payload.id]&amp;quot;}&quot; doc:name=&quot;Set Payload&quot;/&gt;
+						&lt;/http:response-builder&gt;
+					&lt;/when&gt;
+					&lt;otherwise&gt;
+						&lt;scripting:component xmlns:scripting=&quot;http://www.mulesoft.org/schema/mule/scripting&quot; doc:name=&quot;Groovy&quot;&gt;
+							&lt;scripting:script engine=&quot;Groovy&quot;&gt;&lt;![CDATA[
+
+							def returnError = &quot;&quot;;
+							if(payload.errors != null){
+								for(error in payload.errors){
+									returnError += &quot;\n&quot;  + error.message;
+								}
+							}else{
+								returnError = &quot;Internal application error&quot;;
+							}
+							
+							return returnError;]]&gt;
+							&lt;/scripting:script&gt;
+						&lt;/scripting:component&gt;
+						&lt;http:response-builder xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; doc:name=&quot;HTTP Response Builder&quot; contentType=&quot;application/json&quot; status=&quot;500&quot;&gt;
+						&lt;/http:response-builder&gt;
+					&lt;/otherwise&gt;
+				&lt;/choice&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; category=&quot;amg.mkaminsk.contacts.post.request.out&quot; doc:name=&quot;Logger&quot;/&gt;
+				&lt;!-- &lt;json:object-to-json-transformer --&gt;
+				&lt;!-- doc:name=&quot;Object to JSON&quot; /&gt; --&gt;
+			&lt;/rest-router:post&gt;
+		&lt;/rest-router:router&gt;</content>
+            </unknown>
+            <unknown description="false" index="47" entity-id="unknown#2">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <content>&lt;rest-router:router xmlns:rest-router=&quot;http://www.mulesoft.org/schema/mule/rest-router&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; templateUri=&quot;/contacts/{contactId}&quot; config-ref=&quot;rest-router-config&quot; doc:name=&quot;Mule Rest Router&quot;&gt;
+			&lt;rest-router:get&gt;
+				&lt;sfdc:query-single xmlns:sfdc=&quot;http://www.mulesoft.org/schema/mule/sfdc&quot; config-ref=&quot;Salesforce_OAuth&quot; query=&quot;select ${sfdc.contact.fields} from Contact where Id = '#[flowVars['contactId']]'&quot; doc:name=&quot;Salesforce&quot; accessTokenId=&quot;#[header:INBOUND:Authorization]&quot;/&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.sfdc.out&quot;/&gt;
+				&lt;scripting:transformer xmlns:scripting=&quot;http://www.mulesoft.org/schema/mule/scripting&quot; returnClass=&quot;amg.mkaminsk.sfdc.model.Contact&quot; mimeType=&quot;application/json&quot; doc:name=&quot;Groovy&quot;&gt;
+					&lt;scripting:script engine=&quot;Groovy&quot; file=&quot;mappings/groovy/sfdc-contact-to-contact.groovy&quot;/&gt;
+				&lt;/scripting:transformer&gt;
+				&lt;json:object-to-json-transformer xmlns:json=&quot;http://www.mulesoft.org/schema/mule/json&quot; doc:name=&quot;Object to JSON&quot; ignoreBadInput=&quot;true&quot; mimeType=&quot;application/json&quot;/&gt;
+			&lt;/rest-router:get&gt;
+			&lt;rest-router:put&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.post.request.in&quot;/&gt;
+				&lt;json:json-to-object-transformer xmlns:json=&quot;http://www.mulesoft.org/schema/mule/json&quot; returnClass=&quot;amg.mkaminsk.sfdc.model.Contact&quot; doc:name=&quot;JSON to Object&quot;/&gt;
+				&lt;scripting:component xmlns:scripting=&quot;http://www.mulesoft.org/schema/mule/scripting&quot; doc:name=&quot;Groovy&quot;&gt;
+					&lt;scripting:script engine=&quot;Groovy&quot; file=&quot;mappings/groovy/contact-to-sfdc-contact.groovy&quot;/&gt;
+				&lt;/scripting:component&gt;
+				&lt;scripting:component xmlns:scripting=&quot;http://www.mulesoft.org/schema/mule/scripting&quot; doc:name=&quot;Groovy&quot;&gt;
+					&lt;scripting:script engine=&quot;Groovy&quot;&gt;&lt;![CDATA[
+						def contact = payload;
+						contact.id = flowVars.contactId;
+						return contact;
+						]]&gt;
+					&lt;/scripting:script&gt;
+				&lt;/scripting:component&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.put.sfdc.in&quot;/&gt;
+				&lt;sfdc:update-single xmlns:sfdc=&quot;http://www.mulesoft.org/schema/mule/sfdc&quot; config-ref=&quot;Salesforce_OAuth&quot; doc:name=&quot;Salesforce&quot; accessTokenId=&quot;#[header:INBOUND:Authorization]&quot; type=&quot;Contact&quot;&gt;
+					&lt;sfdc:object ref=&quot;#[payload]&quot;/&gt;
+				&lt;/sfdc:update-single&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; doc:name=&quot;Logger&quot; category=&quot;amg.mkaminsk.contacts.post.sfdc.out&quot;/&gt;
+				&lt;choice xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; doc:name=&quot;Choice&quot;&gt;
+					&lt;when expression=&quot;#[payload.isSuccess() == true]&quot;&gt;
+						&lt;http:response-builder xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; doc:name=&quot;HTTP Response Builder&quot; contentType=&quot;application/json&quot; status=&quot;200&quot;&gt;
+							&lt;set-payload value=&quot;{ &amp;quot;href&amp;quot; : &amp;quot;/contacts/#[payload.id]&amp;quot;}&quot; doc:name=&quot;Set Payload&quot;/&gt;
+						&lt;/http:response-builder&gt;
+					&lt;/when&gt;
+					&lt;otherwise&gt;
+						&lt;scripting:component xmlns:scripting=&quot;http://www.mulesoft.org/schema/mule/scripting&quot; doc:name=&quot;Groovy&quot;&gt;
+							&lt;scripting:script engine=&quot;Groovy&quot;&gt;&lt;![CDATA[
+
+							def returnError = &quot;&quot;;
+							if(payload.errors != null){
+								for(error in payload.errors){
+									returnError += &quot;\n&quot;  + error.message;
+								}
+							}else{
+								returnError = &quot;Internal application error&quot;;
+							}
+							
+							return returnError;]]&gt;
+							&lt;/scripting:script&gt;
+						&lt;/scripting:component&gt;
+						&lt;http:response-builder xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; doc:name=&quot;HTTP Response Builder&quot; contentType=&quot;application/json&quot; status=&quot;500&quot;&gt;
+						&lt;/http:response-builder&gt;
+					&lt;/otherwise&gt;
+				&lt;/choice&gt;
+				&lt;logger xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; message=&quot;#[payload]&quot; level=&quot;INFO&quot; category=&quot;amg.mkaminsk.contacts.post.request.out&quot; doc:name=&quot;Logger&quot;/&gt;
+				&lt;!-- &lt;json:object-to-json-transformer --&gt;
+				&lt;!-- doc:name=&quot;Object to JSON&quot; /&gt; --&gt;
+			&lt;/rest-router:put&gt;
+			&lt;rest-router:delete&gt;
+				&lt;scripting:component xmlns:scripting=&quot;http://www.mulesoft.org/schema/mule/scripting&quot; doc:name=&quot;Groovy&quot;&gt;
+					&lt;scripting:script engine=&quot;Groovy&quot;&gt;&lt;![CDATA[
+					
+					return java.util.Arrays.asList(flowVars.contactId);
+]]&gt;&lt;/scripting:script&gt;
+				&lt;/scripting:component&gt;
+
+				&lt;sfdc:delete xmlns:sfdc=&quot;http://www.mulesoft.org/schema/mule/sfdc&quot; config-ref=&quot;Salesforce_OAuth&quot; doc:name=&quot;Salesforce&quot; accessTokenId=&quot;#[header:INBOUND:Authorization]&quot;&gt;
+					&lt;sfdc:ids ref=&quot;#[payload]&quot;/&gt;
+				&lt;/sfdc:delete&gt;
+				&lt;choice xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; doc:name=&quot;Choice&quot;&gt;
+					&lt;when expression=&quot;#[payload[0].isSuccess() == true]&quot;&gt;
+						&lt;http:response-builder xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; doc:name=&quot;HTTP Response Builder&quot; contentType=&quot;application/json&quot; status=&quot;200&quot;&gt;
+							&lt;set-payload value=&quot;''&quot; doc:name=&quot;Set Payload&quot;/&gt;
+						&lt;/http:response-builder&gt;
+					&lt;/when&gt;
+					&lt;otherwise&gt;
+						&lt;scripting:component xmlns:scripting=&quot;http://www.mulesoft.org/schema/mule/scripting&quot; doc:name=&quot;Groovy&quot;&gt;
+							&lt;scripting:script engine=&quot;Groovy&quot;&gt;&lt;![CDATA[
+
+							def returnError = &quot;&quot;;
+							if(payload.errors != null){
+								for(error in payload.errors){
+									returnError += &quot;\n&quot;  + error.message;
+								}
+							}else{
+								returnError = &quot;Internal application error&quot;;
+							}
+							
+							return returnError;]]&gt;
+							&lt;/scripting:script&gt;
+						&lt;/scripting:component&gt;
+						&lt;http:response-builder xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; doc:name=&quot;HTTP Response Builder&quot; contentType=&quot;application/json&quot; status=&quot;500&quot;&gt;
+						&lt;/http:response-builder&gt;
+					&lt;/otherwise&gt;
+				&lt;/choice&gt;
+			&lt;/rest-router:delete&gt;
+		&lt;/rest-router:router&gt;</content>
+            </unknown>
+            <scope name="Catch Exception Strategy" type="http://www.mulesoft.org/schema/mule/core/catch-exception-strategy" entity-id="Catch Exception Strategy#1">
+                <properties>
+                    <property name="labelConfigureConditionalExecutionUsingExpression"/>
+                    <property name="when"/>
+                    <property name="enableNotifications"/>
+                    <property name="auxiliary;index" value="87"/>
+                </properties>
+                <compartment entity-id="compartment#1">
+                    <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#4">
+                        <pattern name="Exception Thrown" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#1">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="message" value="An exception has been caught #[payload]"/>
+<property name="category"/>
+<property name="level" value="ERROR"/>
+<property name="auxiliary;index" value="88"/>
+                            </properties>
+                        </pattern>
+                        <pattern name="Prepare response for client" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="Set Payload#2">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="value" value="Error detected #[payload]"/>
+<property name="auxiliary;index" value="89"/>
+                            </properties>
+                        </pattern>
+                        <pattern name="Status code = 500" type="http://www.mulesoft.org/schema/mule/http/response-builder" entity-id="HTTP Response Builder#2">
+                            <graphicalData x="0" y="0" width="0" height="0"/>
+                            <properties>
+<property name="cookiesLabel"/>
+<property name="status" value="500"/>
+<property name="contentType"/>
+<property name="auxiliary;index" value="90"/>
+                            </properties>
+                            <description>Sending a 500 Http Status code as Response</description>
+                        </pattern>
+                    </lane>
+                </compartment>
+            </scope>
         </lane>
     </flow>
     <description></description>
