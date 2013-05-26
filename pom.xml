@@ -4,8 +4,8 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>amg.mkaminsk</groupId>
-	<artifactId>sfdc</artifactId>
-	<packaging>mule</packaging>
+	<artifactId>sfdc-integration</artifactId>
+	<packaging>${packaging}</packaging>
 	<version>1.0.0-SNAPSHOT</version>
 
 	<properties>
@@ -17,6 +17,7 @@
 		<jdkName>JavaSE-1.6</jdkName>
 		<jdk.version>1.6</jdk.version>
 		<junit.version>4.9</junit.version>
+		<packaging>mule</packaging>
 	</properties>
 
 	<build>
@@ -44,10 +45,10 @@
 									<pluginExecutionFilter>
 										<groupId>org.mule.tools</groupId>
 										<artifactId>maven-mule-plugin</artifactId>
-										<versionRange>[1.6,)</versionRange>
+										<versionRange>[1.9,)</versionRange>
 										<goals>
 											<goal>attach-test-resources</goal>
-											<goal>filter-resources		</goal>
+											<goal>filter-resources</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
@@ -64,7 +65,7 @@
 			<plugin>
 				<groupId>org.mule.tools</groupId>
 				<artifactId>maven-mule-plugin</artifactId>
-				<version>1.7</version>
+				<version>1.9</version>
 				<extensions>true</extensions>
 				<configuration>
 					<copyToAppsDirectory>true</copyToAppsDirectory>
@@ -81,6 +82,10 @@
 						<inclusion>
 							<groupId>org.mule.modules</groupId>
 							<artifactId>mule-module-cloudhub</artifactId>
+						</inclusion>
+						<inclusion>
+							<groupId>org.mule.modules</groupId>
+							<artifactId>mule-module-rest-router</artifactId>
 						</inclusion>
 					</inclusions>
 				</configuration>
@@ -156,6 +161,15 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>webapp</id>
+			<properties>
+				<packaging>war</packaging>
+			</properties>
+		</profile>
+	</profiles>
 
 	<!-- plugins for creating site reports -->
 	<reporting>
@@ -330,6 +344,8 @@
 			<version>${mule.version}</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- additional modules -->
 		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-sfdc</artifactId>
@@ -344,6 +360,11 @@
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-module-cloudhub</artifactId>
 			<version>1.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.modules</groupId>
+			<artifactId>mule-module-rest-router</artifactId>
+			<version>1.2</version>
 		</dependency>
 
 
@@ -378,6 +399,12 @@
 			<id>mulesoft-releases</id>
 			<name>MuleSoft Releases</name>
 			<url>http://repository.mulesoft.org/releases/</url>
+		</repository>
+		<repository>
+			<id>mulesoft-snapshots</id>
+			<name>MuleSoft Snapshot Repository</name>
+			<url>https://repository.mulesoft.org/snapshots/</url>
+			<layout>default</layout>
 		</repository>
 		<repository>
 			<id>oss-sonatype-snapshots</id>
