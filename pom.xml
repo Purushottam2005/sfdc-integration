@@ -62,9 +62,30 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+
+		</plugins>
 	</build>
 
+
+
 	<profiles>
+		<profile>
+			<id>localhost</id>
+			<properties>
+				<sfdc.consumer>3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr</sfdc.consumer>
+				<sfdc.secret>3944577021489077539</sfdc.secret>
+				<sfdc.clientId>3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr</sfdc.clientId>
+			</properties>
+		</profile>
+		<profile>
+			<id>jelastic</id>
+			<properties>
+				<sfdc.consumer>3MVG9y6x0357HledVIXVDDBXOj8DolpvFc_q8TJw8dGYCxK7sQ3N1Fo3Z6AnE.jI8AkxPvwbK8KG9u9mKijBe</sfdc.consumer>
+				<sfdc.secret>3043514091008005881</sfdc.secret>
+				<sfdc.clientId>3MVG9y6x0357HledVIXVDDBXOj8DolpvFc_q8TJw8dGYCxK7sQ3N1Fo3Z6AnE.jI8AkxPvwbK8KG9u9mKijBe</sfdc.clientId>
+			</properties>
+		</profile>
 		<profile>
 			<id>webapp</id>
 			<properties>
@@ -78,18 +99,19 @@
 						<directory>src/main/app/</directory>
 					</resource>
 					<resource>
+						<filtering>true</filtering>
 						<directory>src/main/resources</directory>
 					</resource>
 				</resources>
 				<plugins>
-<!-- 					<plugin> -->
-<!-- 						<groupId>org.apache.maven.plugins</groupId> -->
-<!-- 						<artifactId>maven-war-plugin</artifactId> -->
-<!-- 						<version>2.3</version> -->
-<!-- 						<configuration> -->
-<!-- 							<warName>${war.name}</warName> -->
-<!-- 						</configuration> -->
-<!-- 					</plugin> -->
+					<!-- <plugin> -->
+					<!-- <groupId>org.apache.maven.plugins</groupId> -->
+					<!-- <artifactId>maven-war-plugin</artifactId> -->
+					<!-- <version>2.3</version> -->
+					<!-- <configuration> -->
+					<!-- <warName>${war.name}</warName> -->
+					<!-- </configuration> -->
+					<!-- </plugin> -->
 				</plugins>
 			</build>
 		</profile>

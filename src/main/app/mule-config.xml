@@ -2,6 +2,7 @@
 
 <mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
 	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
 	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
@@ -15,16 +16,16 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
-http://www.mulesoft.org/schema/mule/rest-router http://www.mulesoft.org/schema/mule/rest-router/1.0/mule-rest-router.xsd">
+http://www.mulesoft.org/schema/mule/rest-router http://www.mulesoft.org/schema/mule/rest-router/1.0/mule-rest-router.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+	<context:property-placeholder location="application.properties" />
 	<http:connector name="connector.http.mule.default"
 		cookieSpec="netscape" doc:name="HTTP\HTTPS" validateConnections="false"
 		enableCookies="true" />
 	<sfdc:config-with-oauth name="Salesforce_OAuth"
-		consumerKey="3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr"
-		consumerSecret="3944577021489077539"
-		clientId="3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr"
-		doc:name="Salesforce (OAuth)">
+		consumerKey="${sfdc.consumer}" consumerSecret="${sfdc.secret}"
+		clientId="${sfdc.clientId}" doc:name="Salesforce (OAuth)">
 		<sfdc:oauth-callback-config domain="localhost"
 			localPort="8081" remotePort="8081" path="oauthcallback"></sfdc:oauth-callback-config>
 		<sfdc:oauth-store-config objectStore-ref="_defaultUserObjectStore" />

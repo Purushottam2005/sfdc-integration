@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="mule-config">
+    <global-element name="Property Placeholder" type="http://www.springframework.org/schema/context/property-placeholder" entity-id="Property Placeholder#1">
+        <properties>
+            <property name="properties-ref"/>
+            <property name="order"/>
+            <property name="location" value="application.properties"/>
+            <property name="local-override"/>
+            <property name="system-properties-mode"/>
+            <property name="file-encoding"/>
+            <property name="auxiliary;index" value="1"/>
+            <property name="ignore-unresolvable"/>
+            <property name="ignore-resource-not-found"/>
+        </properties>
+    </global-element>
     <global-element name="HTTP\HTTPS" type="org.mule.tooling.ui.modules.core.global.httpConnector" entity-id="HTTP\HTTPS#1">
         <properties>
             <property name="proxyUsername"/>
@@ -23,32 +36,32 @@
             <property name="dynamicNotification"/>
             <property name="sendBufferSize"/>
             <property name="proxyPassword"/>
-            <property name="auxiliary;index" value="1"/>
+            <property name="auxiliary;index" value="2"/>
         </properties>
     </global-element>
     <global-element name="Salesforce (OAuth)" type="http://www.mulesoft.org/schema/mule/sfdc/config-with-oauth" entity-id="Salesforce (OAuth)#1">
         <properties>
-            <property name="consumerKey" value="3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr"/>
+            <property name="consumerKey" value="${sfdc.consumer}"/>
             <property name="useDefaultRule"/>
             <property name="allowFieldTruncationSupport"/>
             <property name="name" value="Salesforce_OAuth"/>
             <property name="assignmentRuleId"/>
             <property name="timeObjectStore-ref"/>
-            <property name="clientId" value="3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr"/>
-            <property name="consumerSecret" value="3944577021489077539"/>
-            <property name="auxiliary;index" value="2"/>
+            <property name="clientId" value="${sfdc.clientId}"/>
+            <property name="consumerSecret" value="${sfdc.secret}"/>
+            <property name="auxiliary;index" value="3"/>
             <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/oauth-callback-config;0">
                 <property name="domain" value="localhost"/>
                 <property name="path" value="oauthcallback"/>
                 <property name="localPort" value="8081"/>
                 <property name="remotePort" value="8081"/>
-                <property name="auxiliary;index" value="3"/>
-                <property name="auxiliary;wrapIn" value="3"/>
+                <property name="auxiliary;index" value="4"/>
+                <property name="auxiliary;wrapIn" value="4"/>
             </property-collection>
             <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/oauth-store-config;0">
                 <property name="objectStore-ref" value="_defaultUserObjectStore"/>
-                <property name="auxiliary;index" value="4"/>
-                <property name="auxiliary;wrapIn" value="4"/>
+                <property name="auxiliary;index" value="5"/>
+                <property name="auxiliary;wrapIn" value="5"/>
             </property-collection>
         </properties>
     </global-element>
@@ -56,19 +69,19 @@
         <properties>
             <property name="name" value="sfdc.contact.fields"/>
             <property name="value" value="Title, Phone, OtherStreet, OtherState, OtherPostalCode, OtherPhone, OtherCountry, OtherCity, Name, MobilePhone, MailingStreet, MailingState, MailingPostalCode, MailingCountry, MailingCity, LastName, Id, HomePhone, FirstName, Fax, Email, AccountId"/>
-            <property name="auxiliary;index" value="5"/>
+            <property name="auxiliary;index" value="6"/>
         </properties>
     </global-element>
-    <global-unknown description="false" unknownName="rest-router-config" index="6" entity-id="global-unknown#1">
+    <global-unknown description="false" unknownName="rest-router-config" index="7" entity-id="global-unknown#1">
         <content>&lt;rest-router:config xmlns:rest-router=&quot;http://www.mulesoft.org/schema/mule/rest-router&quot; name=&quot;rest-router-config&quot;/&gt;</content>
     </global-unknown>
-    <flow SubFlow="false" name="mule-configFlow1" entity-id="fe65e45a-6e42-4096-bfd3-413d5b2e0ee0">
+    <flow SubFlow="false" name="mule-configFlow1" entity-id="21a2bbd7-6588-49a6-b865-b991030bc34f">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="7"/>
+            <property name="auxiliary;index" value="8"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -97,7 +110,7 @@
                     <property name="user"/>
                     <property name="responseTimeout"/>
                     <property name="mimeType"/>
-                    <property name="auxiliary;index" value="8"/>
+                    <property name="auxiliary;index" value="9"/>
                     <property name="connector-ref"/>
                 </properties>
             </endpoint>
@@ -105,18 +118,18 @@
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="value" value="#['Hello World']"/>
-                    <property name="auxiliary;index" value="9"/>
+                    <property name="auxiliary;index" value="10"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="salesforce-authorize" entity-id="c655d95d-7007-44f6-8739-121d1a6332d7">
+    <flow SubFlow="false" name="salesforce-authorize" entity-id="eb26a555-487f-40ef-a14b-86ca01d1b5fb">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="10"/>
+            <property name="auxiliary;index" value="11"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#2">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -145,7 +158,7 @@
                     <property name="user"/>
                     <property name="responseTimeout"/>
                     <property name="mimeType"/>
-                    <property name="auxiliary;index" value="11"/>
+                    <property name="auxiliary;index" value="12"/>
                     <property name="connector-ref" value="connector.http.mule.default"/>
                 </properties>
             </endpoint>
@@ -160,7 +173,7 @@
                     <property name="display" value="PAGE"/>
                     <property name="prompt"/>
                     <property name="config-ref" value="Salesforce_OAuth"/>
-                    <property name="auxiliary;index" value="12"/>
+                    <property name="auxiliary;index" value="13"/>
                 </properties>
             </pattern>
             <pattern name="HTTP Response Builder" type="http://www.mulesoft.org/schema/mule/http/response-builder" entity-id="HTTP Response Builder#1">
@@ -169,24 +182,24 @@
                     <property name="cookiesLabel"/>
                     <property name="status" value="200"/>
                     <property name="contentType"/>
-                    <property name="auxiliary;index" value="13"/>
+                    <property name="auxiliary;index" value="14"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/http/set-cookie;0">
                         <property name="name" value="accessTokenId"/>
                         <property name="value" value="#[flowVars['OAuthAccessTokenId']]"/>
-                        <property name="auxiliary;index" value="14"/>
-                        <property name="auxiliary;wrapIn" value="14"/>
+                        <property name="auxiliary;index" value="15"/>
+                        <property name="auxiliary;wrapIn" value="15"/>
                     </property-collection>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="sfdc-contacts" entity-id="44a74f7d-29ae-42fd-8457-0570ad909e9a">
+    <flow SubFlow="false" name="sfdc-contacts" entity-id="7d7d8b0b-9290-4f77-bdef-fbe7319af8fe">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="16"/>
+            <property name="auxiliary;index" value="17"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#3">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -215,11 +228,11 @@
                     <property name="user"/>
                     <property name="responseTimeout"/>
                     <property name="mimeType"/>
-                    <property name="auxiliary;index" value="17"/>
+                    <property name="auxiliary;index" value="18"/>
                     <property name="connector-ref" value="connector.http.mule.default"/>
                 </properties>
             </endpoint>
-            <unknown description="false" index="18" entity-id="unknown#1">
+            <unknown description="false" index="19" entity-id="unknown#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <content>&lt;rest-router:router xmlns:rest-router=&quot;http://www.mulesoft.org/schema/mule/rest-router&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; templateUri=&quot;/contacts/&quot; config-ref=&quot;rest-router-config&quot; doc:name=&quot;Mule Rest Router&quot;&gt;
 			&lt;rest-router:get&gt;
@@ -277,7 +290,7 @@
 			&lt;/rest-router:post&gt;
 		&lt;/rest-router:router&gt;</content>
             </unknown>
-            <unknown description="false" index="47" entity-id="unknown#2">
+            <unknown description="false" index="48" entity-id="unknown#2">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <content>&lt;rest-router:router xmlns:rest-router=&quot;http://www.mulesoft.org/schema/mule/rest-router&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; templateUri=&quot;/contacts/{contactId}&quot; config-ref=&quot;rest-router-config&quot; doc:name=&quot;Mule Rest Router&quot;&gt;
 			&lt;rest-router:get&gt;
@@ -382,7 +395,7 @@
                     <property name="labelConfigureConditionalExecutionUsingExpression"/>
                     <property name="when"/>
                     <property name="enableNotifications"/>
-                    <property name="auxiliary;index" value="87"/>
+                    <property name="auxiliary;index" value="88"/>
                 </properties>
                 <compartment entity-id="compartment#1">
                     <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#4">
@@ -392,14 +405,14 @@
 <property name="message" value="An exception has been caught #[payload]"/>
 <property name="category"/>
 <property name="level" value="ERROR"/>
-<property name="auxiliary;index" value="88"/>
+<property name="auxiliary;index" value="89"/>
                             </properties>
                         </pattern>
                         <pattern name="Prepare response for client" type="http://www.mulesoft.org/schema/mule/core/set-payload" entity-id="Set Payload#2">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
 <property name="value" value="Error detected #[payload]"/>
-<property name="auxiliary;index" value="89"/>
+<property name="auxiliary;index" value="90"/>
                             </properties>
                         </pattern>
                         <pattern name="Status code = 500" type="http://www.mulesoft.org/schema/mule/http/response-builder" entity-id="HTTP Response Builder#2">
@@ -408,7 +421,7 @@
 <property name="cookiesLabel"/>
 <property name="status" value="500"/>
 <property name="contentType"/>
-<property name="auxiliary;index" value="90"/>
+<property name="auxiliary;index" value="91"/>
                             </properties>
                             <description>Sending a 500 Http Status code as Response</description>
                         </pattern>
