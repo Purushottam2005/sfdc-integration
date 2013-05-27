@@ -76,6 +76,9 @@
 				<sfdc.consumer>3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr</sfdc.consumer>
 				<sfdc.secret>3944577021489077539</sfdc.secret>
 				<sfdc.clientId>3MVG9y6x0357HledVIXVDDBXOj.l5aGfRurM9d_0cyK5WBDiiujFAoI972Ergu8h5PM_pGHpBnBamQ2T7hqUr</sfdc.clientId>
+				<oauth.domain>localhost</oauth.domain>
+				<oauth.port>8081</oauth.port>
+				<oauth.path>oauthcallback</oauth.path>
 			</properties>
 		</profile>
 		<profile>
@@ -84,6 +87,9 @@
 				<sfdc.consumer>3MVG9y6x0357HledVIXVDDBXOj8DolpvFc_q8TJw8dGYCxK7sQ3N1Fo3Z6AnE.jI8AkxPvwbK8KG9u9mKijBe</sfdc.consumer>
 				<sfdc.secret>3043514091008005881</sfdc.secret>
 				<sfdc.clientId>3MVG9y6x0357HledVIXVDDBXOj8DolpvFc_q8TJw8dGYCxK7sQ3N1Fo3Z6AnE.jI8AkxPvwbK8KG9u9mKijBe</sfdc.clientId>
+				<oauth.domain>mkaminsk1.jelastic.dogado.eu</oauth.domain>
+				<oauth.port>443</oauth.port>
+				<oauth.path>sfdc-integration/oauthcallback</oauth.path>
 			</properties>
 		</profile>
 		<profile>
