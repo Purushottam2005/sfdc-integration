@@ -82,14 +82,14 @@
 					</resource>
 				</resources>
 				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-war-plugin</artifactId>
-						<version>2.3</version>
-						<configuration>
-							<warName>${war.name}</warName>
-						</configuration>
-					</plugin>
+<!-- 					<plugin> -->
+<!-- 						<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 						<artifactId>maven-war-plugin</artifactId> -->
+<!-- 						<version>2.3</version> -->
+<!-- 						<configuration> -->
+<!-- 							<warName>${war.name}</warName> -->
+<!-- 						</configuration> -->
+<!-- 					</plugin> -->
 				</plugins>
 			</build>
 		</profile>
@@ -99,8 +99,8 @@
 			<build>
 				<resources>
 					<resource>
-						<filtering>true</filtering>
 						<directory>src/main/resources/</directory>
+						<filtering>true</filtering>
 						<excludes>
 							<exclude>log4j.properties</exclude>
 						</excludes>
