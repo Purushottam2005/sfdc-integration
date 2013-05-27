@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:pattern="http://www.mulesoft.org/schema/mule/pattern"
+	xmlns:servlet="http://www.mulesoft.org/schema/mule/servlet"
+	xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:rest-router="http://www.mulesoft.org/schema/mule/rest-router"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/pattern http://www.mulesoft.org/schema/mule/pattern/current/mule-pattern.xsd 
+http://www.mulesoft.org/schema/mule/pattern http://www.mulesoft.org/mule/schema/mule/pattern/3.4/mule-pattern.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/3.4/mule-json.xsd
+http://www.mulesoft.org/schema/mule/rest-router http://www.mulesoft.org/schema/mule/rest-router/1.0/mule-rest-router.xsd
+http://www.mulesoft.org/schema/mule/servlet http://www.mulesoft.org/schema/mule/servlet/current/mule-servlet.xsd">
+
+	<servlet:connector name="servletConnector" doc:name="Servlet" />
+
+	<flow name="proxy-oauth-callback" doc:name="proxy-oauth-callback">
+		<servlet:inbound-endpoint path="oauthcallback"
+			responseTimeout="10000" doc:name="Servlet" connector-ref="servletConnector" />
+		<http:outbound-endpoint address="http://localhost:8081/oauthcallback"
+			doc:name="HTTP" />
+	</flow>
+
+<!-- 	<flow name="proxy-oauth-authorize" doc:name="proxy-oauth-authorize"> -->
+		<pattern:http-proxy name="authorize" >
+			<servlet:inbound-endpoint path="authorize"
+				responseTimeout="10000" doc:name="Servlet" connector-ref="servletConnector" />
+			<http:outbound-endpoint address="http://localhost:8081/authorize"
+				doc:name="HTTP" />
+		</pattern:http-proxy>
+<!-- 	</flow> -->
+<!-- 	<flow name="proxyFlow1" doc:name="proxyFlow1"> -->
+		<pattern:http-proxy name="contacts" >
+			<servlet:inbound-endpoint path="contacts"
+				responseTimeout="10000" doc:name="Servlet" connector-ref="servletConnector" />
+			<http:outbound-endpoint address="http://localhost:8081/contacts"
+				doc:name="HTTP" />
+		</pattern:http-proxy>
+<!-- 	</flow> -->
+
+	<!-- <flow name="proxy-contacts" doc:name="proxy-contacts"> -->
+	<!-- <servlet:inbound-endpoint path="contacts" -->
+	<!-- responseTimeout="10000" doc:name="Servlet" connector-ref="servletConnector" 
+		/> -->
+	<!-- <http:outbound-endpoint address="http://localhost:8081/contacts" -->
+	<!-- doc:name="HTTP" /> -->
+	<!-- </flow> -->
+
+</mule>

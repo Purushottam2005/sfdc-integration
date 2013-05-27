@@ -107,6 +107,10 @@
 					</resource>
 					<resource>
 						<directory>src/main/app/</directory>
+						<filtering>true</filtering>
+						<excludes>
+							<exclude>proxy.xml</exclude>
+						</excludes>
 					</resource>
 				</resources>
 				<plugins>
@@ -281,6 +285,13 @@
 			<version>${mule.version}</version>
 			<scope>${mule.dependencies}</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.mule.patterns</groupId>
+			<artifactId>mule-pattern-core</artifactId>
+			<version>${mule.version}</version>
+			<scope>${mule.dependencies}</scope>
+		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>com.mulesoft.muleesb</groupId> -->
 		<!-- <artifactId>mule-core-ee</artifactId> -->
@@ -340,7 +351,7 @@
 		</dependency>
 
 		<!-- Mule Modules -->
-		
+
 		<!-- JSON -->
 		<dependency>
 			<groupId>org.mule.modules</groupId>

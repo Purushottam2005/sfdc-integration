@@ -7,7 +7,7 @@
 <!-- The Mule configuration is provided as a context parameter -->
 <context-param>
 	<param-name>org.mule.config</param-name>
-	<param-value>mule-config.xml</param-value>
+	<param-value>mule-config.xml,proxy.xml</param-value>
 </context-param>
 
 <!-- This listener will start up Mule inside the webapp -->
