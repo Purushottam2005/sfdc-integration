@@ -28,7 +28,7 @@ http://www.mulesoft.org/schema/mule/servlet http://www.mulesoft.org/schema/mule/
 	<flow name="proxy-oauth-callback" doc:name="proxy-oauth-callback">
 		<servlet:inbound-endpoint path="oauthcallback"
 			responseTimeout="10000" doc:name="Servlet" connector-ref="servletConnector" />
-		<http:outbound-endpoint address="http://localhost:8081/oauthcallback"
+		<http:outbound-endpoint address="http://localhost:8081/${oauth.path}"
 			doc:name="HTTP" />
 	</flow>
 

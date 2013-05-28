@@ -23,7 +23,7 @@
 			&lt;http:outbound-endpoint xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; address=&quot;http://localhost:8081/contacts&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; doc:name=&quot;HTTP&quot;/&gt;
 		&lt;/pattern:http-proxy&gt;</content>
     </global-unknown>
-    <flow SubFlow="false" name="proxy-oauth-callback" entity-id="d26ca374-d872-446f-a423-21923f2ddc85">
+    <flow SubFlow="false" name="proxy-oauth-callback" entity-id="6778bc25-c119-4d71-8633-be53aeb20d21">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
@@ -69,7 +69,7 @@
                     <property name="ref"/>
                     <property name="transformer-refs"/>
                     <property name="httpLabel"/>
-                    <property name="address" value="http://localhost:8081/oauthcallback"/>
+                    <property name="address" value="http://localhost:8081/${oauth.path}"/>
                     <property name="path"/>
                     <property name="encoding"/>
                     <property name="responseTransformer-refs"/>
