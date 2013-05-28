@@ -23,6 +23,7 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 http://www.mulesoft.org/schema/mule/rest-router http://www.mulesoft.org/schema/mule/rest-router/1.0/mule-rest-router.xsd
 http://www.mulesoft.org/schema/mule/servlet http://www.mulesoft.org/schema/mule/servlet/current/mule-servlet.xsd">
 
+	<context:property-placeholder location="application.properties" />
 	<servlet:connector name="servletConnector" doc:name="Servlet" />
 
 	<flow name="proxy-oauth-callback" doc:name="proxy-oauth-callback">
@@ -32,22 +33,22 @@ http://www.mulesoft.org/schema/mule/servlet http://www.mulesoft.org/schema/mule/
 			doc:name="HTTP" />
 	</flow>
 
-<!-- 	<flow name="proxy-oauth-authorize" doc:name="proxy-oauth-authorize"> -->
-		<pattern:http-proxy name="authorize" >
-			<servlet:inbound-endpoint path="authorize"
-				responseTimeout="10000" doc:name="Servlet" connector-ref="servletConnector" />
-			<http:outbound-endpoint address="http://localhost:8081/authorize"
-				doc:name="HTTP" />
-		</pattern:http-proxy>
-<!-- 	</flow> -->
-<!-- 	<flow name="proxyFlow1" doc:name="proxyFlow1"> -->
-		<pattern:http-proxy name="contacts" >
-			<servlet:inbound-endpoint path="contacts"
-				responseTimeout="10000" doc:name="Servlet" connector-ref="servletConnector" />
-			<http:outbound-endpoint address="http://localhost:8081/contacts"
-				doc:name="HTTP" />
-		</pattern:http-proxy>
-<!-- 	</flow> -->
+	<!-- <flow name="proxy-oauth-authorize" doc:name="proxy-oauth-authorize"> -->
+	<pattern:http-proxy name="authorize">
+		<servlet:inbound-endpoint path="authorize"
+			responseTimeout="10000" doc:name="Servlet" connector-ref="servletConnector" />
+		<http:outbound-endpoint address="http://localhost:8081/authorize"
+			doc:name="HTTP" />
+	</pattern:http-proxy>
+	<!-- </flow> -->
+	<!-- <flow name="proxyFlow1" doc:name="proxyFlow1"> -->
+	<pattern:http-proxy name="contacts">
+		<servlet:inbound-endpoint path="contacts"
+			responseTimeout="10000" doc:name="Servlet" connector-ref="servletConnector" />
+		<http:outbound-endpoint address="http://localhost:8081/contacts"
+			doc:name="HTTP" />
+	</pattern:http-proxy>
+	<!-- </flow> -->
 
 	<!-- <flow name="proxy-contacts" doc:name="proxy-contacts"> -->
 	<!-- <servlet:inbound-endpoint path="contacts" -->
