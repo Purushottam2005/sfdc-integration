@@ -27,7 +27,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 		consumerKey="${sfdc.consumer}" consumerSecret="${sfdc.secret}"
 		clientId="${sfdc.clientId}" doc:name="Salesforce (OAuth)">
 		<sfdc:oauth-callback-config domain="${oauth.domain}"
-			localPort="${oauth.port}" remotePort="${oauth.port}" path="${oauth.path}"></sfdc:oauth-callback-config>
+			localPort="8081" remotePort="${oauth.port}" path="${oauth.path}"></sfdc:oauth-callback-config>
 		<sfdc:oauth-store-config objectStore-ref="_defaultUserObjectStore" />
 	</sfdc:config-with-oauth>
 	<global-property

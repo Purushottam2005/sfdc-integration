@@ -42,35 +42,28 @@
     <global-element name="Salesforce (OAuth)" type="http://www.mulesoft.org/schema/mule/sfdc/config-with-oauth" entity-id="Salesforce (OAuth)#1">
         <properties>
             <property name="consumerKey" value="${sfdc.consumer}"/>
-            <property name="allowFieldTruncationSupport" value="false"/>
-            <property name="assignmentRuleId" value=""/>
-            <property name="objectStore-ref" value="_defaultUserObjectStore"/>
-            <property name="consumerSecret" value="${sfdc.secret}"/>
-            <property name="clientId" value="${sfdc.clientId}"/>
-            <property name="async" value="false"/>
-            <property name="useDefaultRule" value="false"/>
-            <property name="updated"/>
+            <property name="useDefaultRule"/>
+            <property name="allowFieldTruncationSupport"/>
             <property name="name" value="Salesforce_OAuth"/>
-            <property name="path" value="${oauth.path}"/>
-            <property name="domain" value="${oauth.domain}"/>
-            <property name="remotePort" value="${oauth.port}"/>
-            <property name="localPort" value="${oauth.port}"/>
-            <property name="timeObjectStore-ref" value=""/>
+            <property name="assignmentRuleId"/>
+            <property name="timeObjectStore-ref"/>
+            <property name="clientId" value="${sfdc.clientId}"/>
+            <property name="consumerSecret" value="${sfdc.secret}"/>
             <property name="auxiliary;index" value="3"/>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/oauth-callback-config;1112656382">
-                <property name="path" value="${oauth.path}"/>
+            <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/oauth-callback-config;0">
                 <property name="domain" value="${oauth.domain}"/>
+                <property name="path" value="${oauth.path}"/>
+                <property name="localPort" value="8081"/>
                 <property name="remotePort" value="${oauth.port}"/>
-                <property name="localPort" value="${oauth.port}"/>
-                <property name="async" value="false"/>
                 <property name="auxiliary;index" value="4"/>
+                <property name="auxiliary;wrapIn" value="4"/>
             </property-collection>
-            <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/oauth-store-config;128214198">
+            <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/oauth-store-config;0">
                 <property name="objectStore-ref" value="_defaultUserObjectStore"/>
                 <property name="auxiliary;index" value="5"/>
+                <property name="auxiliary;wrapIn" value="5"/>
             </property-collection>
         </properties>
-        <description></description>
     </global-element>
     <global-element name="Global Property" type="http://www.mulesoft.org/schema/mule/core/global-property" entity-id="Global Property#1">
         <properties>
@@ -82,7 +75,7 @@
     <global-unknown description="false" unknownName="rest-router-config" index="7" entity-id="global-unknown#1">
         <content>&lt;rest-router:config xmlns:rest-router=&quot;http://www.mulesoft.org/schema/mule/rest-router&quot; name=&quot;rest-router-config&quot;/&gt;</content>
     </global-unknown>
-    <flow SubFlow="false" name="mule-configFlow1" entity-id="dd102d0b-8c23-45e5-a4ce-95999d4f902c">
+    <flow SubFlow="false" name="mule-configFlow1" entity-id="7b99ac0d-b038-485b-ae5c-646516d4d9ed">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
@@ -130,7 +123,7 @@
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="salesforce-authorize" entity-id="ed1ebe6a-4d14-428d-9acd-5e165f7d29fc">
+    <flow SubFlow="false" name="salesforce-authorize" entity-id="ce469e6c-c301-4428-ac0e-e656979f2953">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
@@ -200,7 +193,7 @@
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="sfdc-contacts" entity-id="a25efa60-12e9-4160-984e-944cda208177">
+    <flow SubFlow="false" name="sfdc-contacts" entity-id="56645963-248d-41bc-aaf1-5ee832ce6793">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
