@@ -4,6 +4,7 @@
 	xmlns:servlet="http://www.mulesoft.org/schema/mule/servlet"
 	xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
 	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
 	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
@@ -21,7 +22,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/3.4/mule-json.xsd
 http://www.mulesoft.org/schema/mule/rest-router http://www.mulesoft.org/schema/mule/rest-router/1.0/mule-rest-router.xsd
-http://www.mulesoft.org/schema/mule/servlet http://www.mulesoft.org/schema/mule/servlet/current/mule-servlet.xsd">
+http://www.mulesoft.org/schema/mule/servlet http://www.mulesoft.org/schema/mule/servlet/current/mule-servlet.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<context:property-placeholder location="application.properties" />
 	<servlet:connector name="servletConnector" doc:name="Servlet" />

@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="proxy">
-    <global-unknown description="false" index="1" entity-id="global-unknown#1">
-        <content>&lt;context-property-placeholder xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; location=&quot;application.properties&quot;/&gt;</content>
-    </global-unknown>
+    <global-element name="Property Placeholder" type="http://www.springframework.org/schema/context/property-placeholder" entity-id="Property Placeholder#1">
+        <properties>
+            <property name="properties-ref"/>
+            <property name="order"/>
+            <property name="location" value="application.properties"/>
+            <property name="local-override"/>
+            <property name="system-properties-mode"/>
+            <property name="file-encoding"/>
+            <property name="auxiliary;index" value="1"/>
+            <property name="ignore-unresolvable"/>
+            <property name="ignore-resource-not-found"/>
+        </properties>
+    </global-element>
     <global-element name="Servlet" type="http://www.mulesoft.org/schema/mule/servlet/connector" entity-id="Servlet#1">
         <properties>
             <property name="dispatcherPoolFactory-ref"/>
@@ -14,19 +24,19 @@
             <property name="auxiliary;index" value="2"/>
         </properties>
     </global-element>
-    <global-unknown description="false" unknownName="authorize" index="6" entity-id="global-unknown#2">
+    <global-unknown description="false" unknownName="authorize" index="6" entity-id="global-unknown#1">
         <content>&lt;pattern:http-proxy xmlns:pattern=&quot;http://www.mulesoft.org/schema/mule/pattern&quot; name=&quot;authorize&quot;&gt;
 		&lt;servlet:inbound-endpoint xmlns:servlet=&quot;http://www.mulesoft.org/schema/mule/servlet&quot; path=&quot;authorize&quot; responseTimeout=&quot;10000&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; doc:name=&quot;Servlet&quot; connector-ref=&quot;servletConnector&quot;/&gt;
 		&lt;http:outbound-endpoint xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; address=&quot;http://localhost:8081/authorize&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; doc:name=&quot;HTTP&quot;/&gt;
 	&lt;/pattern:http-proxy&gt;</content>
     </global-unknown>
-    <global-unknown description="false" unknownName="contacts" index="9" entity-id="global-unknown#3">
+    <global-unknown description="false" unknownName="contacts" index="9" entity-id="global-unknown#2">
         <content>&lt;pattern:http-proxy xmlns:pattern=&quot;http://www.mulesoft.org/schema/mule/pattern&quot; name=&quot;contacts&quot;&gt;
 		&lt;servlet:inbound-endpoint xmlns:servlet=&quot;http://www.mulesoft.org/schema/mule/servlet&quot; path=&quot;contacts&quot; responseTimeout=&quot;10000&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; doc:name=&quot;Servlet&quot; connector-ref=&quot;servletConnector&quot;/&gt;
 		&lt;http:outbound-endpoint xmlns:http=&quot;http://www.mulesoft.org/schema/mule/http&quot; address=&quot;http://localhost:8081/contacts&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; doc:name=&quot;HTTP&quot;/&gt;
 	&lt;/pattern:http-proxy&gt;</content>
     </global-unknown>
-    <flow SubFlow="false" name="proxy-oauth-callback" entity-id="1c8aee87-b046-4f74-8c30-87544d9c77b0">
+    <flow SubFlow="false" name="proxy-oauth-callback" entity-id="e21bad5b-633f-43cc-8e40-3eb48f123cee">
         <properties>
             <property name="processingStrategy"/>
             <property name="processingStrategy2"/>
