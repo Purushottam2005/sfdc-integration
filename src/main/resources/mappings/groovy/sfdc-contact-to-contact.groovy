@@ -72,9 +72,11 @@ def Address primaryAddress = new Address();
 
 contact.setPrimaryAddress(primaryAddress);
 
-def Account account = new Account();
-account.setReferenceId(payload.AccountId);
-contact.setAccount(account);
+	if(payload.AccountId != null){
+		def Account account = new Account();
+		account.setReferenceId(payload.AccountId);
+		contact.setAccount(account);
+	}
 
 
 return contact;

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:rest-router="http://www.mulesoft.org/schema/mule/rest-router"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.4.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/rest-router http://www.mulesoft.org/schema/mule/rest-router/1.0/mule-rest-router.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:property-placeholder location="application.properties" />
+
+	<global-property
+		value="Website, Phone, Name, Id, Fax, CustomerPriority__c, BillingStreet, BillingState, BillingPostalCode, BillingCountry, BillingCity, AnnualRevenue, Active__c, AccountNumber"
+		name="sfdc.account.fields" doc:name="Global Property" />
+
+	<rest-router:config name="rest-router-config" />
+
+	<flow name="sfdc-accounts" doc:name="sfdc-accounts">
+		<http:inbound-endpoint exchange-pattern="request-response"
+			host="localhost" port="8081" connector-ref="connector.http.mule.default"
+			doc:name="HTTP" path="accounts" />
+		<rest-router:router
+			xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+			templateUri="/accounts/" config-ref="rest-router-config" doc:name="Mule Rest Router">
+			<rest-router:get>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.get.request.in" />
+				<sfdc:query-all config-ref="Salesforce_OAuth"
+					query="Select ${sfdc.account.fields} From Account" doc:name="Salesforce"
+					accessTokenId="#[header:INBOUND:Authorization]"></sfdc:query-all>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.sfdc.out" />
+				<collection-splitter doc:name="Collection Splitter" />
+				<scripting:transformer returnClass="amg.mkaminsk.sfdc.model.Account"
+					mimeType="application/json" doc:name="Groovy">
+					<scripting:script engine="Groovy"
+						file="mappings/groovy/sfdc-account-to-account.groovy"></scripting:script>
+				</scripting:transformer>
+				<collection-aggregator failOnTimeout="true"
+					doc:name="Collection Aggregator" />
+				<json:object-to-json-transformer
+					doc:name="Object to JSON"></json:object-to-json-transformer>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.get.request.out" />
+			</rest-router:get>
+			<rest-router:post>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.post.request.in" />
+				<json:json-to-object-transformer
+					returnClass="amg.mkaminsk.sfdc.model.Account" doc:name="JSON to Object" />
+				<scripting:component doc:name="Groovy">
+					<scripting:script engine="Groovy"
+						file="mappings/groovy/account-to-sfdc-account.groovy"></scripting:script>
+				</scripting:component>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.post.sfdc.in" />
+				<sfdc:create-single config-ref="Salesforce_OAuth"
+					doc:name="Salesforce" accessTokenId="#[header:INBOUND:Authorization]"
+					type="Account">
+					<sfdc:object ref="#[payload]" />
+				</sfdc:create-single>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.post.sfdc.out" />
+				<choice doc:name="Choice">
+					<when expression="#[payload.isSuccess() == true]">
+						<http:response-builder doc:name="HTTP Response Builder"
+							contentType="application/json" status="201">
+							<set-payload
+								value="{ &quot;href&quot; : &quot;/accounts/#[payload.id]&quot;}"
+								doc:name="Set Payload" />
+						</http:response-builder>
+					</when>
+					<otherwise>
+						<scripting:component doc:name="Groovy">
+							<scripting:script engine="Groovy"><![CDATA[
+
+							def returnError = "";
+							if(payload.errors != null){
+								for(error in payload.errors){
+									returnError += "\n"  + error.message;
+								}
+							}else{
+								returnError = "Internal application error";
+							}
+							
+							return returnError;]]>
+							</scripting:script>
+						</scripting:component>
+						<http:response-builder doc:name="HTTP Response Builder"
+							contentType="application/json" status="500">
+						</http:response-builder>
+					</otherwise>
+				</choice>
+				<logger message="#[payload]" level="INFO"
+					category="amg.mkaminsk.accounts.post.request.out" doc:name="Logger" />
+				<!-- <json:object-to-json-transformer -->
+				<!-- doc:name="Object to JSON" /> -->
+			</rest-router:post>
+		</rest-router:router>
+		<rest-router:router
+			xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+			templateUri="/accounts/{accountId}" config-ref="rest-router-config"
+			doc:name="Mule Rest Router">
+			<rest-router:get>
+				<sfdc:query-single config-ref="Salesforce_OAuth"
+					query="select ${sfdc.account.fields} from Account where Id = '#[flowVars['accountId']]'"
+					doc:name="Salesforce" accessTokenId="#[header:INBOUND:Authorization]"></sfdc:query-single>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.sfdc.out" />
+				<scripting:transformer returnClass="amg.mkaminsk.sfdc.model.Account"
+					mimeType="application/json" doc:name="Groovy">
+					<scripting:script engine="Groovy"
+						file="mappings/groovy/sfdc-account-to-account.groovy"></scripting:script>
+				</scripting:transformer>
+				<json:object-to-json-transformer
+					doc:name="Object to JSON" ignoreBadInput="true" mimeType="application/json"></json:object-to-json-transformer>
+			</rest-router:get>
+			<rest-router:put>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.post.request.in" />
+				<json:json-to-object-transformer
+					returnClass="amg.mkaminsk.sfdc.model.Account" doc:name="JSON to Object" />
+				<scripting:component doc:name="Groovy">
+					<scripting:script engine="Groovy"
+						file="mappings/groovy/account-to-sfdc-account.groovy"></scripting:script>
+				</scripting:component>
+				<scripting:component doc:name="Groovy">
+					<scripting:script engine="Groovy"><![CDATA[
+						def account = payload;
+						account.id = flowVars.accountId;
+						return account;
+						]]>
+					</scripting:script>
+				</scripting:component>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.put.sfdc.in" />
+				<sfdc:update-single config-ref="Salesforce_OAuth"
+					doc:name="Salesforce" accessTokenId="#[header:INBOUND:Authorization]"
+					type="Account">
+					<sfdc:object ref="#[payload]" />
+				</sfdc:update-single>
+				<logger message="#[payload]" level="INFO" doc:name="Logger"
+					category="amg.mkaminsk.accounts.post.sfdc.out" />
+				<choice doc:name="Choice">
+					<when expression="#[payload.isSuccess() == true]">
+						<http:response-builder doc:name="HTTP Response Builder"
+							contentType="application/json" status="200">
+							<set-payload
+								value="{ &quot;href&quot; : &quot;/accounts/#[payload.id]&quot;}"
+								doc:name="Set Payload" />
+						</http:response-builder>
+					</when>
+					<otherwise>
+						<scripting:component doc:name="Groovy">
+							<scripting:script engine="Groovy"><![CDATA[
+
+							def returnError = "";
+							if(payload.errors != null){
+								for(error in payload.errors){
+									returnError += "\n"  + error.message;
+								}
+							}else{
+								returnError = "Internal application error";
+							}
+							
+							return returnError;]]>
+							</scripting:script>
+						</scripting:component>
+						<http:response-builder doc:name="HTTP Response Builder"
+							contentType="application/json" status="500">
+						</http:response-builder>
+					</otherwise>
+				</choice>
+				<logger message="#[payload]" level="INFO"
+					category="amg.mkaminsk.accounts.post.request.out" doc:name="Logger" />
+				<!-- <json:object-to-json-transformer -->
+				<!-- doc:name="Object to JSON" /> -->
+			</rest-router:put>
+			<rest-router:delete>
+				<scripting:component doc:name="Groovy">
+					<scripting:script engine="Groovy"><![CDATA[
+					
+					return java.util.Arrays.asList(flowVars.accountId);
+]]></scripting:script>
+				</scripting:component>
+
+				<sfdc:delete config-ref="Salesforce_OAuth" doc:name="Salesforce"
+					accessTokenId="#[header:INBOUND:Authorization]">
+					<sfdc:ids ref="#[payload]" />
+				</sfdc:delete>
+				<choice doc:name="Choice">
+					<when expression="#[payload[0].isSuccess() == true]">
+						<http:response-builder doc:name="HTTP Response Builder"
+							contentType="application/json" status="200">
+							<set-payload value="''" doc:name="Set Payload" />
+						</http:response-builder>
+					</when>
+					<otherwise>
+						<scripting:component doc:name="Groovy">
+							<scripting:script engine="Groovy"><![CDATA[
+
+							def returnError = "";
+							if(payload.errors != null){
+								for(error in payload.errors){
+									returnError += "\n"  + error.message;
+								}
+							}else{
+								returnError = "Internal application error";
+							}
+							
+							return returnError;]]>
+							</scripting:script>
+						</scripting:component>
+						<http:response-builder doc:name="HTTP Response Builder"
+							contentType="application/json" status="500">
+						</http:response-builder>
+					</otherwise>
+				</choice>
+			</rest-router:delete>
+		</rest-router:router>
+		<catch-exception-strategy doc:name="Catch Exception Strategy">
+			<logger message="An exception has been caught #[payload]"
+				level="ERROR" doc:name="Exception Thrown" />
+			<set-payload value="Error detected #[payload]" doc:name="Prepare response for client" />
+			<http:response-builder status="500"
+				doc:name="Status code = 500" doc:description="Sending a 500 Http Status code as Response" />
+		</catch-exception-strategy>
+	</flow>
+</mule>
